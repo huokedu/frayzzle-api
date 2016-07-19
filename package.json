@@ -1,0 +1,29 @@
+{
+  "name": "frayzzle",
+  "version": "1.0.0",
+  "description": "block-chain gaming currency api server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://michael.onubogu@github.com/Parallel-Platform/Frayzzle.git"
+  },
+  "author": "Michael Nnamdi Onubogu",
+  "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "moment": "^2.12.0",
+    "moment-timezone": "^0.5.3",
+    "node-uuid" : "^1.4.7",
+    "request-promise": "^4.0.2",
+    "openid":"^2.0.1"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Parallel-Platform/Frayzzle/issues"
+  },
+  "homepage": "https://github.com/Parallel-Platform/Frayzzle#readme"
+}
