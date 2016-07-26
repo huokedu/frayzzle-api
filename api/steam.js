@@ -5,7 +5,6 @@ var requestPromise = require('request-promise');
 var url = require('url');
 var openid = require('openid');
 var config = require('../config');
-
 var origin = '';
 
 switch (config.env) {
@@ -40,10 +39,10 @@ var steam = {};
  *
  * @param {Function} callback Callback to send results to
  */
-steam.authenticate = function (callback) {
-	var identifier = config.steam.provider;
+steam.authenticate =  (callback) => {
+	let identifier = config.steam.provider;
 
-	relyingParty.authenticate(identifier, false, function (error, authUrl) {
+	relyingParty.authenticate(identifier, false, (error, authUrl) => {
 		if (error) {
 			callback(error);
 		} else if (!authUrl) {
@@ -60,8 +59,8 @@ steam.authenticate = function (callback) {
  * @param {String} userId ID of the user to get
  * @return {Object} Promise
  */
-steam.getSteamUser = function (userId) {
-	var steamUrl = config.steam.api_url
+steam.getSteamUser = (userId) => {
+	let steamUrl = config.steam.api_url
 		+ 'ISteamUser/GetPlayerSummaries/v0002/?key='
 		+ config.steam.api_key
 		+ '&format=json&steamids=' + userId;
@@ -75,32 +74,32 @@ steam.getSteamUser = function (userId) {
  * @oaram {Object}   request  Express request object
  * @param {Function} callback Callback to send results to
  */
-steam.verifyAuthentication = function (request, callback) {
+steam.verifyAuthentication = (request, callback) => {
 	relyingParty.verifyAssertion(request, function (error, result) {
 		if (error) {
 			console.error(error);
 			return callback(error);
 		}
 
-		var urlObj = url.parse(result.claimedIdentifier);
-		var pathArray = urlObj.pathname.split('/');
+		let urlObj = url.parse(result.claimedIdentifier);
+		let pathArray = urlObj.pathname.split('/');
 
 		if (pathArray && pathArray.length > 0) {
-			var steamId = pathArray[(pathArray.length - 1)];
+			let steamId = pathArray[(pathArray.length - 1)];
 
 			//Get the user profile from steam
 			steam.getSteamUser(steamId)
 				 .then(function (data) {
-					var steamData = JSON.parse(data);
+					let steamData = JSON.parse(data);
 					if (steamData && steamData.response
 						&& steamData.response.players
 						&& steamData.response.players.length > 0) {
 
-						var steamUser = steamData.response.players[0];
+						let steamUser = steamData.response.players[0];
 
-						//Generate a firebase token for our steam auth user info
-						var tokenGenerator = new FirebaseTokenGenerator(config.firebase.secret);
-						var token = tokenGenerator.createToken({ uid: 'steam:' + steamId });
+						//Firebase - Generate a firebase token for our steam auth user info
+						//let tokenGenerator = new FirebaseTokenGenerator(config.firebase.secret);
+						//let token = tokenGenerator.createToken({ uid: 'steam:' + steamId });
 
 						callback(null, {
 							steamId: steamId,
